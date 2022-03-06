@@ -28,18 +28,22 @@ function displayUpdate() {
     // Else it should be red since it will be about failing to meet requirement
     updateMsg.style.color = 'red';
   }
-  // Upon initial execution, reveal the message
-  updateMsg.style.display = 'flex';
-  // Then after 2 seconds, hide it
+  // // Upon initial execution, reveal the message
+  // updateMsg.style.display = 'flex';
+  // Then after 5 seconds, revert to old message
   setTimeout(() => {
-    updateMsg.style.display = 'none';
-  }, 2000);
+    updateMsg.innerText = 'Required: Character count and 1 criteria';
+    updateMsg.style.color = 'hsl(206, 17%, 28%)';
+  }, 5000);
 }
 // --------------- This function reveal the filter options
 function revealFilters() {
+  // Display requirement  message
+  updateMsg.style.display = 'flex';
+
   // Set display to flex and extend height of footer
   filters.style.display = 'flex';
-  cardFooter.style.height = '140px';
+  cardFooter.style.height = '220px';
   // Set to false so we can execute generatePassword()
   runOnce = false;
   // Change button label to match with state
@@ -130,6 +134,8 @@ function generatePassword() {
     updateMsg.innerText =
       'Please type a valid character count between 8 and 128';
   } else {
+    // Remove update message if all conditions are correct
+    updateMsg.style.display = 'none';
     // If all conditions are met, then generate password
     var password = 'abcdefghi';
     // Temporarily create an array out of the password so we can shuffle it

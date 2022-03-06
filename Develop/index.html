@@ -25,21 +25,29 @@
           ></textarea>
         </div>
         <div class="card-footer">
+          <!-- the p tag below will fill in via js -->
+          <p id="update-msg">Required: Character count and 1 criteria</p>
           <div class="card-criteria">
-            <p id="update-msg"></p>
-            <label for="special-chars">Include Special symbols</label>
-            <input class="checkbox" id="special-chars" type="checkbox" />
-            <label for="lower-char">Include Lowercase Letters</label>
-            <input class="checkbox" id="lower-char" type="checkbox" />
-            <label for="upper-char">Include Uppercase Letters</label>
-            <input class="checkbox" id="upper-char" type="checkbox" />
-            <label for="numeric-val">Include Numeric Values</label>
-            <input class="checkbox" id="numeric-val" type="checkbox" />
-            <input
-              id="numOfChar"
-              type="number"
-              placeholder="Number of characters"
-            />
+            <div>
+              <label for="special-chars">Add Special characters</label>
+              <input class="checkbox" id="special-chars" type="checkbox" />
+            </div>
+            <div>
+              <label for="lower-char">Add Lowercase characters</label>
+              <input class="checkbox" id="lower-char" type="checkbox" />
+            </div>
+            <div>
+              <label for="upper-char">Add Uppercase characters</label>
+              <input class="checkbox" id="upper-char" type="checkbox" />
+            </div>
+            <div>
+              <label for="numeric-val">Add Numeric values</label>
+              <input class="checkbox" id="numeric-val" type="checkbox" />
+            </div>
+            <div>
+              <label for="numOfChar">Number of characters*</label>
+              <input id="numOfChar" type="number" />
+            </div>
           </div>
           <button id="generate" class="btn">Generate Password</button>
         </div>

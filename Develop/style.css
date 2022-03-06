@@ -42,14 +42,6 @@ header {
   padding: 30px 40px;
 }
 
-.card-header::after {
-  content: ' ';
-  display: block;
-  width: 100%;
-  background: #e7e9eb;
-  height: 2px;
-}
-
 #error {
   display: none;
 }
@@ -58,43 +50,70 @@ header {
   min-height: 100px;
 }
 
+#update-msg {
+  width: 800px;
+  text-align: center;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+}
+
+#numOfChar {
+  width: 70px;
+  font-size: 18px;
+  height: 24px;
+  padding: 0;
+  margin: 0;
+  border: 1px solid rgb(25, 25, 25);
+  border-radius: 3px;
+  text-indent: 3px;
+}
+
 .card-criteria {
+  position: relative;
   display: none;
   flex-direction: column;
 }
+
+.card-criteria div {
+  width: 270px;
+  display: flex;
+  margin: 3px 0;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .card-footer {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
 }
-
-.card-footer::before {
-  content: ' ';
-  display: block;
-  width: 100%;
-  background: #e7e9eb;
-  height: 2px;
+.card-criteria {
+  align-items: center;
 }
 
-.card-footer::after {
-  content: ' ';
-  display: block;
-  clear: both;
+#update-msg {
+  width: 100%;
+  display: none;
+  font-size: 15px;
+  font-weight: 500;
+  margin-top: 5px;
+  margin-bottom: 10px;
 }
 
 .btn {
   border: none;
   background-color: hsl(360, 91%, 36%);
-  border-radius: 25px;
+  border-radius: 8px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 6px 0px rgba(0, 0, 0, 0.2) 0px 1px 1px
     0px;
   color: hsl(0, 0%, 100%);
   display: inline-block;
   font-size: 22px;
   line-height: 22px;
-  margin: 16px 16px 16px 20px;
-  padding: 14px 34px;
+  margin-top: 10px;
+  padding: 12px 40px;
   text-align: center;
   cursor: pointer;
 }
@@ -137,12 +156,31 @@ button[disabled] {
   }
 
   #password {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 }
 
 @media (max-width: 500px) {
   .btn {
     font-size: 0.8rem;
+  }
+
+  .card-criteria div {
+    width: 220px;
+    display: flex;
+    margin: 1px 0;
+    font-size: 14px;
+    justify-content: space-between;
+  }
+  #password {
+    font-size: 0.8rem;
+  }
+
+  .btn {
+    margin: 10px 0px 0px 0px;
+  }
+  h2 {
+    font-size: 20px;
+    text-align: center;
   }
 }
