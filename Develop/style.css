@@ -50,6 +50,10 @@ header {
   height: 2px;
 }
 
+#error {
+  display: none;
+}
+
 .card-body {
   min-height: 100px;
 }
@@ -111,10 +115,10 @@ button[disabled] {
   border: none;
   display: block;
   width: 100%;
-  padding-top: 15px;
+  padding-top: 35px;
   padding-left: 15px;
   padding-right: 15px;
-  padding-bottom: 85px;
+  padding-bottom: 10px;
   font-size: 1.2rem;
   text-align: center;
   margin-top: 10px;

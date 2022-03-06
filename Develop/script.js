@@ -4,6 +4,7 @@ var passwordText = document.querySelector('#password');
 
 const filters = document.querySelector('.card-criteria');
 const cardFooter = document.querySelector('.card-footer');
+const error = document.getElementById('error');
 var runOnce = true; // Declare global variable to determine when to reveal filters and when to
 // execute the generate password function
 
@@ -18,6 +19,15 @@ var parameters = {
   symbols: '!@#$%*()_+-=?/'.split(''),
 };
 
+// --------------- This function displays error message if condition is not met
+function displayError() {
+  // Upon initial execution, reveal the message
+  error.style.display = 'flex';
+  // Then after 2 seconds, hide it
+  setTimeout(() => {
+    error.style.display = 'none';
+  }, 2000);
+}
 // --------------- This function reveal the filter options
 function revealFilters() {
   // Set display to flex and extend height of footer
@@ -60,7 +70,9 @@ function generatePassword() {
     tempReqs[3] == false &&
     numOfChar == ''
   ) {
-    alert('Please use at least one criteria and fill in character count.');
+    displayError();
+    error.innerText =
+      'Please use at least one criteria and fill in character count.';
   } else if (
     (tempReqs[0] == false &&
       tempReqs[1] == false &&
@@ -73,18 +85,20 @@ function generatePassword() {
       tempReqs[3] == false &&
       numOfChar < 8)
   ) {
-    alert(
-      'Please use at least one criteria and choose a valid character count between 8 and 128'
-    );
+    displayError();
+    error.innerText =
+      'Please use at least one criteria and choose a valid character count between 8 and 128';
   } else if (
     tempReqs[0] == false &&
     tempReqs[1] == false &&
     tempReqs[2] == false &&
     tempReqs[3] == false
   ) {
-    alert('Please use at least one criteria.');
+    displayError();
+    error.innerText = 'Please use at least one criteria.';
   } else if (numOfChar < 8 || numOfChar > 128) {
-    alert('Please type a valid character count between 8 and 128');
+    displayError();
+    error.innerText = 'Please type a valid character count between 8 and 128';
   } else {
     // If all conditions are met, then generate password
     var password = 'abcdefghi';
