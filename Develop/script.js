@@ -86,8 +86,14 @@ function generatePassword() {
   } else if (numOfChar < 8 || numOfChar > 128) {
     alert('Please type a valid character count between 8 and 128');
   } else {
-    var password = '4322';
-    passwordText.value = password;
+    // If all conditions are met, then generate password
+    var password = 'abcdefghi';
+    // Temporarily create an array out of the password so we can shuffle it
+    const shuffledArray = password
+      .split('')
+      .sort((a, b) => 0.5 - Math.random());
+
+    passwordText.value = shuffledArray;
     generateBtn.innerHTML = 'Generator another';
 
     // Revert back to the original state
