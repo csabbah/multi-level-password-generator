@@ -4,9 +4,9 @@ var passwordText = document.querySelector('#password');
 
 const filters = document.querySelector('.card-criteria');
 const cardFooter = document.querySelector('.card-footer');
-const error = document.getElementById('error');
-var runOnce = true; // Declare global variable to determine when to reveal filters and when to
-// execute the generate password function
+const updateMsg = document.getElementById('update-msg');
+var runOnce = true; // Declare this variable to determine when to reveal filter opttions
+// and when to execute the generate password function
 
 // --------------- Declare all necessary parameter for creating the password
 // Declare all criteria's in one object to keep it simple
@@ -22,10 +22,10 @@ var parameters = {
 // --------------- This function displays error message if condition is not met
 function displayError() {
   // Upon initial execution, reveal the message
-  error.style.display = 'flex';
+  updateMsg.style.display = 'flex';
   // Then after 2 seconds, hide it
   setTimeout(() => {
-    error.style.display = 'none';
+    updateMsg.style.display = 'none';
   }, 2000);
 }
 // --------------- This function reveal the filter options
@@ -35,6 +35,15 @@ function revealFilters() {
   cardFooter.style.height = '140px';
   runOnce = false;
   generateBtn.innerHTML = 'Generate Password';
+}
+
+// --------------- After successful password generation, clear all input fields
+function clearFilters() {
+  document.getElementById('numOfChar').value = '';
+  numOfChar = '';
+  runOnce = true;
+  filters.style.display = 'none';
+  cardFooter.style.height = 'initial';
 }
 
 // Assignment code here
@@ -71,7 +80,7 @@ function generatePassword() {
     numOfChar == ''
   ) {
     displayError();
-    error.innerText =
+    updateMsg.innerText =
       'Please use at least one criteria and fill in character count.';
   } else if (
     (tempReqs[0] == false &&
@@ -86,7 +95,7 @@ function generatePassword() {
       numOfChar < 8)
   ) {
     displayError();
-    error.innerText =
+    updateMsg.innerText =
       'Please use at least one criteria and choose a valid character count between 8 and 128';
   } else if (
     tempReqs[0] == false &&
@@ -95,10 +104,11 @@ function generatePassword() {
     tempReqs[3] == false
   ) {
     displayError();
-    error.innerText = 'Please use at least one criteria.';
+    updateMsg.innerText = 'Please use at least one criteria.';
   } else if (numOfChar < 8 || numOfChar > 128) {
     displayError();
-    error.innerText = 'Please type a valid character count between 8 and 128';
+    updateMsg.innerText =
+      'Please type a valid character count between 8 and 128';
   } else {
     // If all conditions are met, then generate password
     var password = 'abcdefghi';
@@ -111,9 +121,7 @@ function generatePassword() {
     generateBtn.innerHTML = 'Generator another';
 
     // Revert back to the original state
-    runOnce = true;
-    filters.style.display = 'none';
-    cardFooter.style.height = 'initial';
+    clearFilters();
   }
 }
 
