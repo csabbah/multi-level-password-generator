@@ -137,13 +137,13 @@ function generatePassword() {
     // Remove update message if all conditions are correct
     updateMsg.style.display = 'none';
     // If all conditions are met, then generate password
-    var password = 'abcdefghi';
+    var password = 'abcddaiofnsdfiodnaoifnsdiofnioonioniofnaoisefghi';
     // Temporarily create an array out of the password so we can shuffle it
     const passShuffled = password.split('').sort((a, b) => 0.5 - Math.random());
     // Set passwordText to the new shuffled password
     passwordText.value = passShuffled;
     // Change button label to match with state
-    generateBtn.innerHTML = 'Generator another';
+    generateBtn.innerHTML = 'Reset';
     // Revert back to the original state
     clearFilters();
   }

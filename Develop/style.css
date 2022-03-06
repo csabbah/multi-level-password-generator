@@ -137,7 +137,7 @@ button[disabled] {
   padding-top: 35px;
   padding-left: 15px;
   padding-right: 15px;
-  padding-bottom: 10px;
+  padding-bottom: 62px;
   font-size: 1.2rem;
   text-align: center;
   margin-top: 10px;
@@ -173,7 +173,7 @@ button[disabled] {
     justify-content: space-between;
   }
   #password {
-    font-size: 0.8rem;
+    font-size: 0.6rem;
   }
 
   .btn {
