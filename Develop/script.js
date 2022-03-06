@@ -44,7 +44,8 @@ function revealFilters() {
   runOnce = false;
   // Change button label to match with state
   generateBtn.innerHTML = 'Generate Password';
-  // Only clear the password if it exists and inform user that filters have been reset
+  // Only clear the password if it exists and...
+  // inform the user that the filters have been reset
   if (!password.value == '') {
     displayUpdate();
     updateMsg.innerText = 'Filters reset';
