@@ -1,18 +1,36 @@
+// Add all global variables at the top to clean up functions below
 var generateBtn = document.querySelector('#generate');
+var passwordText = document.querySelector('#password');
+
+const filters = document.querySelector('.card-criteria');
+const cardFooter = document.querySelector('.card-footer');
+var runOnce = true; // Declare global variable to determine when to reveal filters and when to
+// execute the generate password function
+
+// --------------- Declare all necessary parameter for creating the password
+// Declare all criteria's in one object to keep it simple
+var parameters = {
+  // Create a separate array for each parameter using the .split method
+  // The .split method cleans up the code and is more efficient
+  lettersLower: 'abcdefghijklmnopqrstuvwxyz'.split(''),
+  lettersUpper: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''),
+  numbers: '0123456789'.split(''),
+  symbols: '!@#$%*()_+-=?/'.split(''),
+};
+
+// --------------- This function reveal the filter options
+function revealFilters() {
+  // Set display to flex and extend height of footer
+  filters.style.display = 'flex';
+  cardFooter.style.height = '140px';
+  runOnce = false;
+  generateBtn.innerHTML = 'Generate Password';
+}
 
 // Assignment code here
 function generatePassword() {
-  // --------------- Declare all necessary parameter for creating the password
-  // Declare all criteria's in one object to keep it simple
-  var parameters = {
-    // Create a separate array for each parameter using the .split method
-    // The .split method cleans up the code and is more efficient
-    lettersLower: 'abcdefghijklmnopqrstuvwxyz'.split(''),
-    lettersUpper: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''),
-    numbers: '0123456789'.split(''),
-    symbols: '!@#$%*()_+-=?/'.split(''),
-  };
-
+  // This will hold the values of the filters, one MUST be true in order to
+  // generate the password
   var tempReqs = [false, false, false, false];
 
   // --------------- Extract conditional data (num-of-chars, special-chars and etc.)
@@ -33,10 +51,8 @@ function generatePassword() {
   var numericVal = document.getElementById('numeric-val');
   numericVal.checked ? (tempReqs[3] = true) : '';
 
-  // --------------- Create the password
-  var password = '4322';
-
-  // --------------- Check final password and write to HTML element
+  // --------------- Check all criteria's
+  // If all is true, create and write password to HTML element
   if (
     tempReqs[0] == false &&
     tempReqs[1] == false &&
@@ -70,15 +86,26 @@ function generatePassword() {
   } else if (numOfChar < 8 || numOfChar > 128) {
     alert('Please type a valid character count between 8 and 128');
   } else {
-    // Get references to the #generate element
-    var passwordText = document.querySelector('#password');
+    var password = '4322';
     passwordText.value = password;
+    generateBtn.innerHTML = 'Generator another';
+
+    // Revert back to the original state
+    runOnce = true;
+    filters.style.display = 'none';
+    cardFooter.style.height = 'initial';
   }
 }
 
 // Add event listener to generate button
 generateBtn.addEventListener('click', () => {
-  generatePassword();
+  // Reveal the filters on initial button click
+  if (runOnce) {
+    revealFilters();
+  } else {
+    // Then execute this function after
+    generatePassword();
+  }
 });
 
 /*
