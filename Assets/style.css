@@ -17,14 +17,13 @@ body {
   background-color: #f9fbfd;
 }
 
-/* Chrome, Safari, Edge, Opera */
+/* Remove toggle buttons for input with type number */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-/* Firefox */
 input[type='number'] {
   -moz-appearance: textfield;
 }
@@ -69,11 +68,12 @@ header {
 .card-body img {
   cursor: pointer;
   position: absolute;
-  top: 20px;
+  bottom: -54px;
   right: 10px;
-  width: 40px;
-  height: 40px;
+  width: 45px;
+  height: 45px;
 }
+
 #update-msg {
   width: 800px;
   text-align: center;
@@ -195,11 +195,21 @@ button[disabled] {
   #update-msg {
     font-size: 12px;
   }
+
+  .card-body img {
+    cursor: pointer;
+    position: absolute;
+    bottom: -58px;
+    right: 10px;
+    width: 45px;
+    height: 45px;
+  }
 }
 
 @media (max-width: 500px) {
   .btn {
-    font-size: 0.8rem;
+    font-size: 0.7rem;
+    padding: 10px 8px;
   }
 
   .card-criteria div {
@@ -228,5 +238,14 @@ button[disabled] {
   #update-msg {
     width: 130%;
     font-size: 11px;
+  }
+
+  .card-body img {
+    cursor: pointer;
+    position: absolute;
+    bottom: -50px;
+    right: -2px;
+    width: 30px;
+    height: 30px;
   }
 }

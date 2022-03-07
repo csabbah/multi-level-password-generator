@@ -275,8 +275,8 @@ function generatePassword() {
   // Reveal the copy password button
   copyBtn.style.display = 'flex';
   // Change button label to match with state
-  generateBtn.innerHTML = 'Reset';
-  // Clear all filters and then set runOnce to true so when we click on the generate button ('reset') now...
+  generateBtn.innerHTML = 'Generator Another';
+  // Clear all filters and then set runOnce to true so when we click on the generate button now...
   // it will return the filters and allows us to run the full function again
   clearFilters();
 }
