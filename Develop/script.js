@@ -58,7 +58,7 @@ function clearFilters() {
 // --------------- This function displays error message if condition is not met
 function displayRequirement() {
   updateMsg.innerHTML = `Required:
-            <em id="char-count">Valid Character count between 8-128</em> and
+            <em id="char-count">Valid Character count between 8-128</em>
             <em id="crit-check">1 criteria</em>`;
   updateMsg.style.color = 'hsl(206, 17%, 28%)';
 }
