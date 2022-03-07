@@ -18,12 +18,17 @@
         </div>
         <div class="card-body">
           <textarea
-            disabled
             readonly
             id="password"
             placeholder="Your Secure Password"
             aria-label="Generated Password"
           ></textarea>
+          <img
+            id="copy-text"
+            class="copy-btn"
+            src="/Images/icon-clipboard-512.webp"
+            alt=""
+          />
         </div>
         <div class="card-footer">
           <p id="update-msg">
@@ -53,8 +58,9 @@
               <input id="numOfChar" type="number" />
             </div>
           </div>
-          <button id="generate" class="btn">Generate Password</button>
-          <button id="copy-text" class="copy-btn">Copy code</button>
+          <div>
+            <button id="generate" class="btn">Generate Password</button>
+          </div>
         </div>
       </div>
     </div>

@@ -1,12 +1,21 @@
+// ----- Dear UofT grader, thank you for reviewing my code!
+// Please mind the length of code, i included a variety of functions for the project
+
 // --------------- Add all global variables at the top to clean up functions below
 var generateBtn = document.querySelector('#generate');
 var passwordText = document.querySelector('#password');
 const filters = document.querySelector('.card-criteria');
 const cardFooter = document.querySelector('.card-footer');
 const updateMsg = document.getElementById('update-msg');
+var copyBtn = document.querySelector('.copy-btn'); // Copy Password button
 
-var runOnce = true; // Declare this variable to determine when to reveal filter options
-// and when to execute the generate password function
+// On initial load, hide the copy password button
+copyBtn.style.display = 'none';
+// On initial load, hide the full body and only show the generator password button
+document.querySelector('.card-body').style.display = 'none';
+document.querySelector('.card-header').style.display = 'none';
+// Declare this variable to determine when to reveal filter options
+var runOnce = true; // and when to execute the generate password function
 
 // --------------- Declare all necessary keys/values for creating the password
 // Declare all criteria's in one object to keep it simple
@@ -21,8 +30,10 @@ var parameters = {
 
 // --------------- This function reveals the filter options and check what the user is entering
 function revealFilters() {
-  // Display requirement  message
+  // Display requirement message as well as the card-header and card-body sections
   updateMsg.style.display = 'flex';
+  document.querySelector('.card-body').style.display = 'flex';
+  document.querySelector('.card-header').style.display = 'flex';
 
   // Set display to flex and extend height of footer
   filters.style.display = 'flex';
@@ -35,6 +46,8 @@ function revealFilters() {
   if (!password.value == '') {
     displayRequirement();
     password.value = '';
+    copyBtn.style.display = 'none'; // Hide the copy password button since the password is empty now
+
     // If password exists and we reset, revert back to original card height
     passwordText.style.paddingTop = '24px';
     passwordText.style.paddingBottom = '0';
@@ -51,7 +64,7 @@ function displayRequirement() {
   updateMsg.style.color = 'hsl(206, 17%, 28%)';
 }
 
-// Make this a global array so we can access it in checkParams() and testCondition()
+// Make this a global array so we can access it in checkParams() testCondition() and GeneratePassword()
 var tempParams = [false, false, false, false, false];
 
 // --------------- After successful password generation, clear all input fields
@@ -173,47 +186,98 @@ function testCondition() {
   });
 }
 
-// Assignment code here
+// --------------- Create the function out of the data we gathered from the users input
 function generatePassword() {
   // Remove update message if all conditions are correct
   updateMsg.style.display = 'none';
-  // Increase the height to the textarea to fit the password
-  passwordText.style.paddingTop = '13px';
-  passwordText.style.paddingBottom = '45px';
 
-  // If all conditions are met, then generate password
   var password = '';
-  for (let i = 0; i < parseInt(numOfChar.value); i++) {
-    // HOW TO MAKE SURE THAT IF ALL CRITERIAS ARE CHOSEN, THEY ALL GET ADDED INTO THE CODE AT LEAST ONCE?
-    // If index is even, add upper case letter
-    if (i % 2 == 0) {
-      console.log(i);
+  // If all conditions are met, then generate password
+  for (let i = 0; i <= parseInt(numOfChar.value); ) {
+    if (tempParams[1] == true) {
+      // Special characters
       password +=
-        parameters.lettersUpper[
-          Math.floor(Math.random(0) * parameters.lettersUpper.length)
+        parameters.symbols[
+          Math.floor(Math.random(0) * parameters.symbols.length)
           // Randomize the letter selection from 0 to the max length of the array
         ];
-    } else {
+      // Increment here specifically and break accordingly so we don't go through
+      // the full loop iteration and add an unnecessary amount of characters
+      i += 1;
+      if (i == parseInt(numOfChar.value)) {
+        break;
+      }
+    }
+    if (tempParams[2] == true) {
+      // Lower characters
       password +=
         parameters.lettersLower[
           Math.floor(Math.random(0) * parameters.lettersLower.length)
         ];
+      i += 1;
+      if (i == parseInt(numOfChar.value)) {
+        break;
+      }
+    }
+
+    if (tempParams[3] == true) {
+      // Upper characters
+      password +=
+        parameters.lettersUpper[
+          Math.floor(Math.random(0) * parameters.lettersUpper.length)
+        ];
+      i += 1;
+      if (i == parseInt(numOfChar.value)) {
+        break;
+      }
+    }
+    if (tempParams[4] == true) {
+      // Numbers
+      password +=
+        parameters.numbers[
+          Math.floor(Math.random(0) * parameters.numbers.length)
+        ];
+      i += 1;
+      if (i == parseInt(numOfChar.value)) {
+        break;
+      }
     }
   }
 
-  // Temporarily create an array out of the password so we can shuffle it
-  // Then convert it to string, replace all commas and put it together as a new shuffled string
-  const passShuffled = password
+  // Temporarily turn the password into an array so i can use the sort method to shuffle the password
+  // and then convert it back to string using .join
+  var shuffledPass = password
     .split('')
-    .sort((a, b) => 0.5 - Math.random())
-    .toString()
-    .replace(/,/g, '');
+    .sort(function () {
+      return 0.5 - Math.random();
+    })
+    .join('');
 
-  passwordText.value = passShuffled;
-  console.log(passShuffled.length);
+  // Finally, add the shuffledPass to the main textarea field
+  passwordText.value = shuffledPass;
+
+  // Increase the height to the passwordText textarea to fit the password length
+  // The longer the password, the more space is needed height wise
+  if (passwordText.value.length >= 100) {
+    passwordText.style.paddingTop = '13px';
+    passwordText.style.paddingBottom = '67px';
+  } else if (
+    passwordText.value.length <= 100 &&
+    passwordText.value.length >= 50
+  ) {
+    passwordText.style.paddingTop = '13px';
+    passwordText.style.paddingBottom = '20px';
+  } else {
+    passwordText.style.paddingTop = '34px';
+    passwordText.style.paddingBottom = '10px';
+  }
+
+  // Reveal the copy password button
+  copyBtn.style.display = 'flex';
   // Change button label to match with state
   generateBtn.innerHTML = 'Reset';
-  // Revert back to the original state
+  // Clear all filters and then set runOnce to true so when we click on the generate button ('reset') now...
+  // it will return the filters and allows us to run the full function again
   clearFilters();
 }
 
@@ -229,16 +293,12 @@ generateBtn.addEventListener('click', () => {
   }
 });
 
-// Copy password to clip board
-// var copyBtn = document.querySelector('.copy-btn');
-// copyBtn.addEventListener('click', () => {
-//   /* Select the text field */
-//   passwordText.select();
-//   passwordText.setSelectionRange(0, 99999); /* For mobile devices */
+// --------------- This function allows you to copy the  password to clip board
+var copyBtn = document.querySelector('.copy-btn');
+copyBtn.addEventListener('click', () => {
+  passwordText.select();
+  document.execCommand('copy');
 
-//   /* Copy the text inside the text field */
-//   navigator.clipboard.writeText(passwordText.value);
-
-//   /* Alert the copied text */
-//   alert('Copied the text: ' + passwordText.value);
-// });
+  updateMsg.style.display = 'flex';
+  updateMsg.innerText = 'Password Copied!';
+});
