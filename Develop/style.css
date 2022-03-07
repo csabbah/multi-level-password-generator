@@ -102,6 +102,12 @@ header {
   margin-bottom: 10px;
 }
 
+#update-msg em {
+  font-style: normal;
+  font-weight: 600;
+  margin: 0 4px;
+}
+
 .btn {
   border: none;
   background-color: hsl(360, 91%, 36%);

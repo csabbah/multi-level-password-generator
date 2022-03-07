@@ -32,9 +32,9 @@ function displayUpdate() {
   // updateMsg.style.display = 'flex';
   // Then after 5 seconds, revert to old message
   setTimeout(() => {
-    updateMsg.innerText = 'Required: Character count and 1 criteria';
+    updateMsg.innerHTML = `Required: <em id="char-count">Character count</em> and <em id="crit-check">1 criteria</em>`;
     updateMsg.style.color = 'hsl(206, 17%, 28%)';
-  }, 5000);
+  }, 3000);
 }
 // --------------- This function reveal the filter options
 function revealFilters() {
@@ -55,8 +55,149 @@ function revealFilters() {
     updateMsg.innerText = 'Filters reset';
     password.value = '';
   }
-}
 
+  // Disabled button when the filters are revealed
+  generateBtn.disabled = 'true';
+
+  var tempCheck = [false, false, false, false, false];
+  // The below condition is special so it's slightly different vs the other ones below
+  numOfChar.addEventListener('keyup', (e) => {
+    if (e.target.value > 8 && e.target.value < 128) {
+      document.getElementById('char-count').style.color = 'green';
+      tempCheck[0] = true;
+    } else {
+      document.getElementById('char-count').style.color = 'hsl(206, 17%, 28%)';
+      tempCheck[0] = false;
+    }
+    if (
+      (tempCheck[0] && tempCheck[1]) ||
+      (tempCheck[0] && tempCheck[2]) ||
+      (tempCheck[0] && tempCheck[3]) ||
+      (tempCheck[0] && tempCheck[4])
+    ) {
+      generateBtn.disabled = false;
+    } else {
+      generateBtn.disabled = true;
+    }
+  });
+
+  var specialChars = document.getElementById('special-chars');
+  specialChars.addEventListener('change', (e) => {
+    if (e.target.checked) {
+      tempCheck[1] = true;
+      document.getElementById('crit-check').style.color = 'green';
+    } else {
+      tempCheck[1] = false;
+    }
+    if (
+      (tempCheck[0] && tempCheck[1]) ||
+      (tempCheck[0] && tempCheck[2]) ||
+      (tempCheck[0] && tempCheck[3]) ||
+      (tempCheck[0] && tempCheck[4])
+    ) {
+      generateBtn.disabled = false;
+    } else if (
+      (!tempCheck[0] && tempCheck[1]) ||
+      (!tempCheck[0] && tempCheck[2]) ||
+      (!tempCheck[0] && tempCheck[3]) ||
+      (!tempCheck[0] && tempCheck[4])
+    ) {
+      generateBtn.disabled = true;
+      document.getElementById('crit-check').style.color = 'green';
+    } else {
+      document.getElementById('crit-check').style.color = 'hsl(206, 17%, 28%)';
+      generateBtn.disabled = true;
+    }
+  });
+
+  var lowerChar = document.getElementById('lower-char');
+  lowerChar.addEventListener('change', (e) => {
+    if (e.target.checked) {
+      // Highlight the words green as an indicator ("1 Criteria")
+      tempCheck[2] = true;
+      document.getElementById('crit-check').style.color = 'green';
+    } else {
+      tempCheck[2] = false;
+    }
+    if (
+      (tempCheck[0] && tempCheck[1]) ||
+      (tempCheck[0] && tempCheck[2]) ||
+      (tempCheck[0] && tempCheck[3]) ||
+      (tempCheck[0] && tempCheck[4])
+    ) {
+      generateBtn.disabled = false;
+    } else if (
+      (!tempCheck[0] && tempCheck[1]) ||
+      (!tempCheck[0] && tempCheck[2]) ||
+      (!tempCheck[0] && tempCheck[3]) ||
+      (!tempCheck[0] && tempCheck[4])
+    ) {
+      generateBtn.disabled = true;
+      document.getElementById('crit-check').style.color = 'green';
+    } else {
+      document.getElementById('crit-check').style.color = 'hsl(206, 17%, 28%)';
+      generateBtn.disabled = true;
+    }
+  });
+
+  var upperChar = document.getElementById('upper-char');
+  upperChar.addEventListener('change', (e) => {
+    if (e.target.checked) {
+      tempCheck[3] = true;
+      document.getElementById('crit-check').style.color = 'green';
+    } else {
+      tempCheck[3] = false;
+    }
+    if (
+      (tempCheck[0] && tempCheck[1]) ||
+      (tempCheck[0] && tempCheck[2]) ||
+      (tempCheck[0] && tempCheck[3]) ||
+      (tempCheck[0] && tempCheck[4])
+    ) {
+      generateBtn.disabled = false;
+    } else if (
+      (!tempCheck[0] && tempCheck[1]) ||
+      (!tempCheck[0] && tempCheck[2]) ||
+      (!tempCheck[0] && tempCheck[3]) ||
+      (!tempCheck[0] && tempCheck[4])
+    ) {
+      generateBtn.disabled = true;
+      document.getElementById('crit-check').style.color = 'green';
+    } else {
+      document.getElementById('crit-check').style.color = 'hsl(206, 17%, 28%)';
+      generateBtn.disabled = true;
+    }
+  });
+
+  var numericVal = document.getElementById('numeric-val');
+  numericVal.addEventListener('change', (e) => {
+    if (e.target.checked) {
+      tempCheck[4] = true;
+      document.getElementById('crit-check').style.color = 'green';
+    } else {
+      tempCheck[4] = false;
+    }
+    if (
+      (tempCheck[0] && tempCheck[1]) ||
+      (tempCheck[0] && tempCheck[2]) ||
+      (tempCheck[0] && tempCheck[3]) ||
+      (tempCheck[0] && tempCheck[4])
+    ) {
+      generateBtn.disabled = false;
+    } else if (
+      (!tempCheck[0] && tempCheck[1]) ||
+      (!tempCheck[0] && tempCheck[2]) ||
+      (!tempCheck[0] && tempCheck[3]) ||
+      (!tempCheck[0] && tempCheck[4])
+    ) {
+      generateBtn.disabled = true;
+      document.getElementById('crit-check').style.color = 'green';
+    } else {
+      document.getElementById('crit-check').style.color = 'hsl(206, 17%, 28%)';
+      generateBtn.disabled = true;
+    }
+  });
+}
 // --------------- After successful password generation, clear all input fields
 function clearFilters() {
   document.getElementById('numOfChar').value = '';
