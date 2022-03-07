@@ -1,14 +1,14 @@
-// Add all global variables at the top to clean up functions below
+// --------------- Add all global variables at the top to clean up functions below
 var generateBtn = document.querySelector('#generate');
 var passwordText = document.querySelector('#password');
-
 const filters = document.querySelector('.card-criteria');
 const cardFooter = document.querySelector('.card-footer');
 const updateMsg = document.getElementById('update-msg');
+
 var runOnce = true; // Declare this variable to determine when to reveal filter options
 // and when to execute the generate password function
 
-// --------------- Declare all necessary parameter for creating the password
+// --------------- Declare all necessary keys/values for creating the password
 // Declare all criteria's in one object to keep it simple
 var parameters = {
   // Create a separate array for each parameter using the .split method
@@ -16,10 +16,10 @@ var parameters = {
   lettersLower: 'abcdefghijklmnopqrstuvwxyz'.split(''),
   lettersUpper: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''),
   numbers: '0123456789'.split(''),
-  symbols: '!@#$%*()_+-=?/'.split(''),
+  symbols: "!@#$%*()_+-=?/~}{|><;:.,'`^][/|\\".split(''),
 };
 
-// --------------- This function reveals the filter options
+// --------------- This function reveals the filter options and check what the user is entering
 function revealFilters() {
   // Display requirement  message
   updateMsg.style.display = 'flex';
@@ -35,27 +35,15 @@ function revealFilters() {
   if (!password.value == '') {
     displayRequirement();
     password.value = '';
-    // If password exists and we reset, revert back to original height
+    // If password exists and we reset, revert back to original card height
     passwordText.style.paddingTop = '24px';
     passwordText.style.paddingBottom = '0';
   }
-
+  // While we're in the filter state, check the data the user is inputting
   testCondition();
 }
-// --------------- After successful password generation, clear all input fields
-function clearFilters() {
-  document.getElementById('numOfChar').value = '';
-  document.querySelectorAll('.checkbox').forEach((item) => {
-    item.checked = false;
-  });
-  // By setting to true, we can now execute revealFilter()
-  runOnce = true;
-  // Revert to initial card style
-  filters.style.display = 'none';
-  cardFooter.style.height = 'initial';
-}
 
-// --------------- This function displays error message if condition is not met
+// --------------- This function re-displays the initial requirement message
 function displayRequirement() {
   updateMsg.innerHTML = `Required:
             <em id="char-count">Valid Character count between 8-128</em>
@@ -63,12 +51,60 @@ function displayRequirement() {
   updateMsg.style.color = 'hsl(206, 17%, 28%)';
 }
 
+// Make this a global array so we can access it in checkParams() and testCondition()
+var tempParams = [false, false, false, false, false];
+
+// --------------- After successful password generation, clear all input fields
+// and revert to initial styling
+function clearFilters() {
+  document.getElementById('numOfChar').value = '';
+  document.querySelectorAll('.checkbox').forEach((item) => {
+    item.checked = false;
+  });
+
+  // Clear array so the condition are fresh the next time we try to generate a password
+  for (i = 0; i < tempParams.length; i++) {
+    tempParams[i] = false;
+  }
+
+  // By setting to true, we can now execute revealFilter()
+  runOnce = true;
+  // Revert to initial card style
+  filters.style.display = 'none';
+  cardFooter.style.height = 'initial';
+}
+
+// --------------- This function cleans up the repetitive conditional code in testCondition() below
+function checkParams() {
+  if (
+    (tempParams[0] && tempParams[1]) ||
+    (tempParams[0] && tempParams[2]) ||
+    (tempParams[0] && tempParams[3]) ||
+    (tempParams[0] && tempParams[4])
+  ) {
+    generateBtn.disabled = false;
+  } else if (
+    (!tempParams[0] && tempParams[1]) ||
+    (!tempParams[0] && tempParams[2]) ||
+    (!tempParams[0] && tempParams[3]) ||
+    (!tempParams[0] && tempParams[4])
+  ) {
+    generateBtn.disabled = true;
+    document.getElementById('crit-check').style.color = 'green';
+  } else {
+    document.getElementById('crit-check').style.color = 'hsl(206, 17%, 28%)';
+    generateBtn.disabled = true;
+  }
+}
+
+// --------------- This function colors the labels requirement labels accordingly (i.e. '1 Criteria') and...
+// makes the generate button active or disabled depending on if conditions are met
 function testCondition() {
   // Disable button when the filters are revealed initially
   generateBtn.disabled = 'true';
 
-  var tempParams = [false, false, false, false, false];
   // The below condition is special so it's slightly different vs the other ones below
+  // Check for key up on the numOfChar input and return condition accordingly
   numOfChar.addEventListener('keyup', (e) => {
     if (e.target.value >= 8 && e.target.value <= 128) {
       document.getElementById('char-count').style.color = 'green';
@@ -90,6 +126,7 @@ function testCondition() {
     }
   });
 
+  // Listen for a checkbox change event and return condition accordingly
   var specialChars = document.getElementById('special-chars');
   specialChars.addEventListener('change', (e) => {
     if (e.target.checked) {
@@ -98,25 +135,7 @@ function testCondition() {
     } else {
       tempParams[1] = false;
     }
-    if (
-      (tempParams[0] && tempParams[1]) ||
-      (tempParams[0] && tempParams[2]) ||
-      (tempParams[0] && tempParams[3]) ||
-      (tempParams[0] && tempParams[4])
-    ) {
-      generateBtn.disabled = false;
-    } else if (
-      (!tempParams[0] && tempParams[1]) ||
-      (!tempParams[0] && tempParams[2]) ||
-      (!tempParams[0] && tempParams[3]) ||
-      (!tempParams[0] && tempParams[4])
-    ) {
-      generateBtn.disabled = true;
-      document.getElementById('crit-check').style.color = 'green';
-    } else {
-      document.getElementById('crit-check').style.color = 'hsl(206, 17%, 28%)';
-      generateBtn.disabled = true;
-    }
+    checkParams();
   });
 
   var lowerChar = document.getElementById('lower-char');
@@ -128,25 +147,7 @@ function testCondition() {
     } else {
       tempParams[2] = false;
     }
-    if (
-      (tempParams[0] && tempParams[1]) ||
-      (tempParams[0] && tempParams[2]) ||
-      (tempParams[0] && tempParams[3]) ||
-      (tempParams[0] && tempParams[4])
-    ) {
-      generateBtn.disabled = false;
-    } else if (
-      (!tempParams[0] && tempParams[1]) ||
-      (!tempParams[0] && tempParams[2]) ||
-      (!tempParams[0] && tempParams[3]) ||
-      (!tempParams[0] && tempParams[4])
-    ) {
-      generateBtn.disabled = true;
-      document.getElementById('crit-check').style.color = 'green';
-    } else {
-      document.getElementById('crit-check').style.color = 'hsl(206, 17%, 28%)';
-      generateBtn.disabled = true;
-    }
+    checkParams();
   });
 
   var upperChar = document.getElementById('upper-char');
@@ -157,25 +158,7 @@ function testCondition() {
     } else {
       tempParams[3] = false;
     }
-    if (
-      (tempParams[0] && tempParams[1]) ||
-      (tempParams[0] && tempParams[2]) ||
-      (tempParams[0] && tempParams[3]) ||
-      (tempParams[0] && tempParams[4])
-    ) {
-      generateBtn.disabled = false;
-    } else if (
-      (!tempParams[0] && tempParams[1]) ||
-      (!tempParams[0] && tempParams[2]) ||
-      (!tempParams[0] && tempParams[3]) ||
-      (!tempParams[0] && tempParams[4])
-    ) {
-      generateBtn.disabled = true;
-      document.getElementById('crit-check').style.color = 'green';
-    } else {
-      document.getElementById('crit-check').style.color = 'hsl(206, 17%, 28%)';
-      generateBtn.disabled = true;
-    }
+    checkParams();
   });
 
   var numericVal = document.getElementById('numeric-val');
@@ -186,25 +169,7 @@ function testCondition() {
     } else {
       tempParams[4] = false;
     }
-    if (
-      (tempParams[0] && tempParams[1]) ||
-      (tempParams[0] && tempParams[2]) ||
-      (tempParams[0] && tempParams[3]) ||
-      (tempParams[0] && tempParams[4])
-    ) {
-      generateBtn.disabled = false;
-    } else if (
-      (!tempParams[0] && tempParams[1]) ||
-      (!tempParams[0] && tempParams[2]) ||
-      (!tempParams[0] && tempParams[3]) ||
-      (!tempParams[0] && tempParams[4])
-    ) {
-      generateBtn.disabled = true;
-      document.getElementById('crit-check').style.color = 'green';
-    } else {
-      document.getElementById('crit-check').style.color = 'hsl(206, 17%, 28%)';
-      generateBtn.disabled = true;
-    }
+    checkParams();
   });
 }
 
@@ -217,8 +182,24 @@ function generatePassword() {
   passwordText.style.paddingBottom = '45px';
 
   // If all conditions are met, then generate password
-  var password =
-    'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
+  var password = '';
+  for (let i = 0; i < parseInt(numOfChar.value); i++) {
+    // If I is even, add upper case letter
+    if (i % 2 == 0) {
+      console.log(i);
+      password +=
+        parameters.lettersUpper[
+          Math.floor(Math.random(0) * parameters.lettersUpper.length)
+          // Randomize the letter selection from 0 to the max length of the array
+        ];
+    } else {
+      password +=
+        parameters.lettersLower[
+          Math.floor(Math.random(0) * parameters.lettersLower.length)
+        ];
+    }
+  }
+
   // Temporarily create an array out of the password so we can shuffle it
   // Then convert it to string, replace all commas and put it together as a new shuffled string
   const passShuffled = password
@@ -228,6 +209,7 @@ function generatePassword() {
     .replace(/,/g, '');
 
   passwordText.value = passShuffled;
+  console.log(passShuffled.length);
   // Change button label to match with state
   generateBtn.innerHTML = 'Reset';
   // Revert back to the original state
@@ -246,20 +228,15 @@ generateBtn.addEventListener('click', () => {
   }
 });
 
-/*
-GIVEN I need a new, secure password
-WHEN I click the button to generate a password
-THEN I am presented with a series of prompts for password criteria
-WHEN prompted for password criteria
-THEN I select which criteria to include in the password
-WHEN prompted for the length of the password
-THEN I choose a length of at least 8 characters and no more than 128 characters
-WHEN asked for character types to include in the password
-THEN I confirm whether or not to include lowercase, uppercase, numeric, and/or special characters
-WHEN I answer each prompt
-THEN my input should be validated and at least one character type should be selected
-WHEN all prompts are answered
-THEN a password is generated that matches the selected criteria
-WHEN the password is generated
-THEN the password is either displayed in an alert or written to the page
-*/
+var copyBtn = document.querySelector('.copy-btn');
+copyBtn.addEventListener('click', () => {
+  /* Select the text field */
+  passwordText.select();
+  passwordText.setSelectionRange(0, 99999); /* For mobile devices */
+
+  /* Copy the text inside the text field */
+  navigator.clipboard.writeText(passwordText.value);
+
+  /* Alert the copied text */
+  alert('Copied the text: ' + passwordText.value);
+});
