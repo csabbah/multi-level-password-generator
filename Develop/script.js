@@ -184,7 +184,8 @@ function generatePassword() {
   // If all conditions are met, then generate password
   var password = '';
   for (let i = 0; i < parseInt(numOfChar.value); i++) {
-    // If I is even, add upper case letter
+    // HOW TO MAKE SURE THAT IF ALL CRITERIAS ARE CHOSEN, THEY ALL GET ADDED INTO THE CODE AT LEAST ONCE?
+    // If index is even, add upper case letter
     if (i % 2 == 0) {
       console.log(i);
       password +=
@@ -228,15 +229,16 @@ generateBtn.addEventListener('click', () => {
   }
 });
 
-var copyBtn = document.querySelector('.copy-btn');
-copyBtn.addEventListener('click', () => {
-  /* Select the text field */
-  passwordText.select();
-  passwordText.setSelectionRange(0, 99999); /* For mobile devices */
+// Copy password to clip board
+// var copyBtn = document.querySelector('.copy-btn');
+// copyBtn.addEventListener('click', () => {
+//   /* Select the text field */
+//   passwordText.select();
+//   passwordText.setSelectionRange(0, 99999); /* For mobile devices */
 
-  /* Copy the text inside the text field */
-  navigator.clipboard.writeText(passwordText.value);
+//   /* Copy the text inside the text field */
+//   navigator.clipboard.writeText(passwordText.value);
 
-  /* Alert the copied text */
-  alert('Copied the text: ' + passwordText.value);
-});
+//   /* Alert the copied text */
+//   alert('Copied the text: ' + passwordText.value);
+// });
