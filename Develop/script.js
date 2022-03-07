@@ -19,184 +19,28 @@ var parameters = {
   symbols: '!@#$%*()_+-=?/'.split(''),
 };
 
-// --------------- This function displays error message if condition is not met
-function displayUpdate() {
-  // If password is active, message should be color in green
-  if (!password.value == '') {
-    updateMsg.style.color = 'green';
-  } else {
-    // Else it should be red since it will be about failing to meet requirement
-    updateMsg.style.color = 'red';
-  }
-  // // Upon initial execution, reveal the message
-  // updateMsg.style.display = 'flex';
-  // Then after 5 seconds, revert to old message
-  setTimeout(() => {
-    updateMsg.innerHTML = `Required: <em id="char-count">Character count</em> and <em id="crit-check">1 criteria</em>`;
-    updateMsg.style.color = 'hsl(206, 17%, 28%)';
-  }, 3000);
-}
-// --------------- This function reveal the filter options
+// --------------- This function reveals the filter options
 function revealFilters() {
   // Display requirement  message
   updateMsg.style.display = 'flex';
 
   // Set display to flex and extend height of footer
   filters.style.display = 'flex';
-  cardFooter.style.height = '220px';
+  cardFooter.style.height = '240px';
   // Set to false so we can execute generatePassword()
   runOnce = false;
   // Change button label to match with state
   generateBtn.innerHTML = 'Generate Password';
-  // Only clear the password if it exists and...
-  // inform the user that the filters have been reset
+  // Only clear the password if it exists
   if (!password.value == '') {
-    displayUpdate();
-    updateMsg.innerText = 'Filters reset';
+    displayRequirement();
     password.value = '';
+    // If password exists and we reset, revert back to original height
+    passwordText.style.paddingTop = '24px';
+    passwordText.style.paddingBottom = '0';
   }
 
-  // Disabled button when the filters are revealed
-  generateBtn.disabled = 'true';
-
-  var tempCheck = [false, false, false, false, false];
-  // The below condition is special so it's slightly different vs the other ones below
-  numOfChar.addEventListener('keyup', (e) => {
-    if (e.target.value > 8 && e.target.value < 128) {
-      document.getElementById('char-count').style.color = 'green';
-      tempCheck[0] = true;
-    } else {
-      document.getElementById('char-count').style.color = 'hsl(206, 17%, 28%)';
-      tempCheck[0] = false;
-    }
-    if (
-      (tempCheck[0] && tempCheck[1]) ||
-      (tempCheck[0] && tempCheck[2]) ||
-      (tempCheck[0] && tempCheck[3]) ||
-      (tempCheck[0] && tempCheck[4])
-    ) {
-      generateBtn.disabled = false;
-    } else {
-      generateBtn.disabled = true;
-    }
-  });
-
-  var specialChars = document.getElementById('special-chars');
-  specialChars.addEventListener('change', (e) => {
-    if (e.target.checked) {
-      tempCheck[1] = true;
-      document.getElementById('crit-check').style.color = 'green';
-    } else {
-      tempCheck[1] = false;
-    }
-    if (
-      (tempCheck[0] && tempCheck[1]) ||
-      (tempCheck[0] && tempCheck[2]) ||
-      (tempCheck[0] && tempCheck[3]) ||
-      (tempCheck[0] && tempCheck[4])
-    ) {
-      generateBtn.disabled = false;
-    } else if (
-      (!tempCheck[0] && tempCheck[1]) ||
-      (!tempCheck[0] && tempCheck[2]) ||
-      (!tempCheck[0] && tempCheck[3]) ||
-      (!tempCheck[0] && tempCheck[4])
-    ) {
-      generateBtn.disabled = true;
-      document.getElementById('crit-check').style.color = 'green';
-    } else {
-      document.getElementById('crit-check').style.color = 'hsl(206, 17%, 28%)';
-      generateBtn.disabled = true;
-    }
-  });
-
-  var lowerChar = document.getElementById('lower-char');
-  lowerChar.addEventListener('change', (e) => {
-    if (e.target.checked) {
-      // Highlight the words green as an indicator ("1 Criteria")
-      tempCheck[2] = true;
-      document.getElementById('crit-check').style.color = 'green';
-    } else {
-      tempCheck[2] = false;
-    }
-    if (
-      (tempCheck[0] && tempCheck[1]) ||
-      (tempCheck[0] && tempCheck[2]) ||
-      (tempCheck[0] && tempCheck[3]) ||
-      (tempCheck[0] && tempCheck[4])
-    ) {
-      generateBtn.disabled = false;
-    } else if (
-      (!tempCheck[0] && tempCheck[1]) ||
-      (!tempCheck[0] && tempCheck[2]) ||
-      (!tempCheck[0] && tempCheck[3]) ||
-      (!tempCheck[0] && tempCheck[4])
-    ) {
-      generateBtn.disabled = true;
-      document.getElementById('crit-check').style.color = 'green';
-    } else {
-      document.getElementById('crit-check').style.color = 'hsl(206, 17%, 28%)';
-      generateBtn.disabled = true;
-    }
-  });
-
-  var upperChar = document.getElementById('upper-char');
-  upperChar.addEventListener('change', (e) => {
-    if (e.target.checked) {
-      tempCheck[3] = true;
-      document.getElementById('crit-check').style.color = 'green';
-    } else {
-      tempCheck[3] = false;
-    }
-    if (
-      (tempCheck[0] && tempCheck[1]) ||
-      (tempCheck[0] && tempCheck[2]) ||
-      (tempCheck[0] && tempCheck[3]) ||
-      (tempCheck[0] && tempCheck[4])
-    ) {
-      generateBtn.disabled = false;
-    } else if (
-      (!tempCheck[0] && tempCheck[1]) ||
-      (!tempCheck[0] && tempCheck[2]) ||
-      (!tempCheck[0] && tempCheck[3]) ||
-      (!tempCheck[0] && tempCheck[4])
-    ) {
-      generateBtn.disabled = true;
-      document.getElementById('crit-check').style.color = 'green';
-    } else {
-      document.getElementById('crit-check').style.color = 'hsl(206, 17%, 28%)';
-      generateBtn.disabled = true;
-    }
-  });
-
-  var numericVal = document.getElementById('numeric-val');
-  numericVal.addEventListener('change', (e) => {
-    if (e.target.checked) {
-      tempCheck[4] = true;
-      document.getElementById('crit-check').style.color = 'green';
-    } else {
-      tempCheck[4] = false;
-    }
-    if (
-      (tempCheck[0] && tempCheck[1]) ||
-      (tempCheck[0] && tempCheck[2]) ||
-      (tempCheck[0] && tempCheck[3]) ||
-      (tempCheck[0] && tempCheck[4])
-    ) {
-      generateBtn.disabled = false;
-    } else if (
-      (!tempCheck[0] && tempCheck[1]) ||
-      (!tempCheck[0] && tempCheck[2]) ||
-      (!tempCheck[0] && tempCheck[3]) ||
-      (!tempCheck[0] && tempCheck[4])
-    ) {
-      generateBtn.disabled = true;
-      document.getElementById('crit-check').style.color = 'green';
-    } else {
-      document.getElementById('crit-check').style.color = 'hsl(206, 17%, 28%)';
-      generateBtn.disabled = true;
-    }
-  });
+  testCondition();
 }
 // --------------- After successful password generation, clear all input fields
 function clearFilters() {
@@ -211,83 +55,183 @@ function clearFilters() {
   cardFooter.style.height = 'initial';
 }
 
-// Assignment code here
-function generatePassword() {
-  // This will hold the values of the filters, one MUST be true in order to
-  // generate the password
-  var tempReqs = [false, false, false, false];
+// --------------- This function displays error message if condition is not met
+function displayRequirement() {
+  updateMsg.innerHTML = `Required:
+            <em id="char-count">Valid Character count between 8-128</em> and
+            <em id="crit-check">1 criteria</em>`;
+  updateMsg.style.color = 'hsl(206, 17%, 28%)';
+}
 
-  // --------------- Extract conditional data (num-of-chars, special-chars and etc.)
-  // Extract the value from the number of characters input
-  var numOfChar = document.getElementById('numOfChar').value;
+function testCondition() {
+  // Disable button when the filters are revealed initially
+  generateBtn.disabled = 'true';
 
-  // Extract the value from the checkboxes
-  // If checkbox has been checked, convert the boolean to true
+  var tempParams = [false, false, false, false, false];
+  // The below condition is special so it's slightly different vs the other ones below
+  numOfChar.addEventListener('keyup', (e) => {
+    if (e.target.value >= 8 && e.target.value <= 128) {
+      document.getElementById('char-count').style.color = 'green';
+
+      tempParams[0] = true;
+    } else {
+      document.getElementById('char-count').style.color = 'hsl(206, 17%, 28%)';
+      tempParams[0] = false;
+    }
+    if (
+      (tempParams[0] && tempParams[1]) ||
+      (tempParams[0] && tempParams[2]) ||
+      (tempParams[0] && tempParams[3]) ||
+      (tempParams[0] && tempParams[4])
+    ) {
+      generateBtn.disabled = false;
+    } else {
+      generateBtn.disabled = true;
+    }
+  });
+
   var specialChars = document.getElementById('special-chars');
-  specialChars.checked ? (tempReqs[0] = true) : '';
+  specialChars.addEventListener('change', (e) => {
+    if (e.target.checked) {
+      tempParams[1] = true;
+      document.getElementById('crit-check').style.color = 'green';
+    } else {
+      tempParams[1] = false;
+    }
+    if (
+      (tempParams[0] && tempParams[1]) ||
+      (tempParams[0] && tempParams[2]) ||
+      (tempParams[0] && tempParams[3]) ||
+      (tempParams[0] && tempParams[4])
+    ) {
+      generateBtn.disabled = false;
+    } else if (
+      (!tempParams[0] && tempParams[1]) ||
+      (!tempParams[0] && tempParams[2]) ||
+      (!tempParams[0] && tempParams[3]) ||
+      (!tempParams[0] && tempParams[4])
+    ) {
+      generateBtn.disabled = true;
+      document.getElementById('crit-check').style.color = 'green';
+    } else {
+      document.getElementById('crit-check').style.color = 'hsl(206, 17%, 28%)';
+      generateBtn.disabled = true;
+    }
+  });
 
   var lowerChar = document.getElementById('lower-char');
-  lowerChar.checked ? (tempReqs[1] = true) : '';
+  lowerChar.addEventListener('change', (e) => {
+    if (e.target.checked) {
+      // Highlight the words green as an indicator ("1 Criteria")
+      tempParams[2] = true;
+      document.getElementById('crit-check').style.color = 'green';
+    } else {
+      tempParams[2] = false;
+    }
+    if (
+      (tempParams[0] && tempParams[1]) ||
+      (tempParams[0] && tempParams[2]) ||
+      (tempParams[0] && tempParams[3]) ||
+      (tempParams[0] && tempParams[4])
+    ) {
+      generateBtn.disabled = false;
+    } else if (
+      (!tempParams[0] && tempParams[1]) ||
+      (!tempParams[0] && tempParams[2]) ||
+      (!tempParams[0] && tempParams[3]) ||
+      (!tempParams[0] && tempParams[4])
+    ) {
+      generateBtn.disabled = true;
+      document.getElementById('crit-check').style.color = 'green';
+    } else {
+      document.getElementById('crit-check').style.color = 'hsl(206, 17%, 28%)';
+      generateBtn.disabled = true;
+    }
+  });
 
   var upperChar = document.getElementById('upper-char');
-  upperChar.checked ? (tempReqs[2] = true) : '';
+  upperChar.addEventListener('change', (e) => {
+    if (e.target.checked) {
+      tempParams[3] = true;
+      document.getElementById('crit-check').style.color = 'green';
+    } else {
+      tempParams[3] = false;
+    }
+    if (
+      (tempParams[0] && tempParams[1]) ||
+      (tempParams[0] && tempParams[2]) ||
+      (tempParams[0] && tempParams[3]) ||
+      (tempParams[0] && tempParams[4])
+    ) {
+      generateBtn.disabled = false;
+    } else if (
+      (!tempParams[0] && tempParams[1]) ||
+      (!tempParams[0] && tempParams[2]) ||
+      (!tempParams[0] && tempParams[3]) ||
+      (!tempParams[0] && tempParams[4])
+    ) {
+      generateBtn.disabled = true;
+      document.getElementById('crit-check').style.color = 'green';
+    } else {
+      document.getElementById('crit-check').style.color = 'hsl(206, 17%, 28%)';
+      generateBtn.disabled = true;
+    }
+  });
 
   var numericVal = document.getElementById('numeric-val');
-  numericVal.checked ? (tempReqs[3] = true) : '';
+  numericVal.addEventListener('change', (e) => {
+    if (e.target.checked) {
+      tempParams[4] = true;
+      document.getElementById('crit-check').style.color = 'green';
+    } else {
+      tempParams[4] = false;
+    }
+    if (
+      (tempParams[0] && tempParams[1]) ||
+      (tempParams[0] && tempParams[2]) ||
+      (tempParams[0] && tempParams[3]) ||
+      (tempParams[0] && tempParams[4])
+    ) {
+      generateBtn.disabled = false;
+    } else if (
+      (!tempParams[0] && tempParams[1]) ||
+      (!tempParams[0] && tempParams[2]) ||
+      (!tempParams[0] && tempParams[3]) ||
+      (!tempParams[0] && tempParams[4])
+    ) {
+      generateBtn.disabled = true;
+      document.getElementById('crit-check').style.color = 'green';
+    } else {
+      document.getElementById('crit-check').style.color = 'hsl(206, 17%, 28%)';
+      generateBtn.disabled = true;
+    }
+  });
+}
 
-  // --------------- Check all criteria's
-  // If all is true, create and write password to HTML element
-  if (
-    tempReqs[0] == false &&
-    tempReqs[1] == false &&
-    tempReqs[2] == false &&
-    tempReqs[3] == false &&
-    numOfChar == ''
-  ) {
-    displayUpdate();
-    updateMsg.innerText =
-      'Please use at least one criteria and fill in character count.';
-  } else if (
-    (tempReqs[0] == false &&
-      tempReqs[1] == false &&
-      tempReqs[2] == false &&
-      tempReqs[3] == false &&
-      numOfChar > 128) ||
-    (tempReqs[0] == false &&
-      tempReqs[1] == false &&
-      tempReqs[2] == false &&
-      tempReqs[3] == false &&
-      numOfChar < 8)
-  ) {
-    displayUpdate();
-    updateMsg.innerText =
-      'Please use at least one criteria and choose a valid character count between 8 and 128';
-  } else if (
-    tempReqs[0] == false &&
-    tempReqs[1] == false &&
-    tempReqs[2] == false &&
-    tempReqs[3] == false
-  ) {
-    displayUpdate();
-    updateMsg.innerText = 'Please use at least one criteria.';
-  } else if (numOfChar < 8 || numOfChar > 128) {
-    displayUpdate();
-    updateMsg.innerText =
-      'Please type a valid character count between 8 and 128';
-  } else {
-    // Remove update message if all conditions are correct
-    updateMsg.style.display = 'none';
-    // If all conditions are met, then generate password
-    var password = 'abcddaiofnsdfiodnaoifnsdiofnioonioniofnaoisefghi';
-    // Temporarily create an array out of the password so we can shuffle it
-    const passShuffled = password.split('').sort((a, b) => 0.5 - Math.random());
-    // Set passwordText to the new shuffled password
-    passwordText.value = passShuffled;
-    // Change button label to match with state
-    generateBtn.innerHTML = 'Reset';
-    // Revert back to the original state
-    clearFilters();
-  }
+// Assignment code here
+function generatePassword() {
+  // Remove update message if all conditions are correct
+  updateMsg.style.display = 'none';
+  // Increase the height to the textarea to fit the password
+  passwordText.style.paddingTop = '13px';
+  passwordText.style.paddingBottom = '45px';
+
+  // If all conditions are met, then generate password
+  var password =
+    'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
+  // Temporarily create an array out of the password so we can shuffle it
+  // Then convert it to string, replace all commas and put it together as a new shuffled string
+  const passShuffled = password
+    .split('')
+    .sort((a, b) => 0.5 - Math.random())
+    .toString()
+    .replace(/,/g, '');
+
+  passwordText.value = passShuffled;
+  // Change button label to match with state
+  generateBtn.innerHTML = 'Reset';
+  // Revert back to the original state
+  clearFilters();
 }
 
 // Add event listener to generate button
@@ -296,7 +240,7 @@ generateBtn.addEventListener('click', () => {
   if (runOnce) {
     revealFilters();
   } else {
-    // Then execute this function after
+    // Then execute the main function after
     // Upon successful password generation, set runOnce to true
     generatePassword();
   }

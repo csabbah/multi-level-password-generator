@@ -18,6 +18,7 @@
         </div>
         <div class="card-body">
           <textarea
+            disabled
             readonly
             id="password"
             placeholder="Your Secure Password"
@@ -25,10 +26,9 @@
           ></textarea>
         </div>
         <div class="card-footer">
-          <!-- the p tag below will fill in via js -->
           <p id="update-msg">
-            Required: <em id="char-count">Character count</em>
-            and
+            Required:
+            <em id="char-count">Valid Character count between 8-128</em> and
             <em id="crit-check">1 criteria</em>
           </p>
           <div class="card-criteria">
