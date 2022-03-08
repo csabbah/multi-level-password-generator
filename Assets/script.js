@@ -150,53 +150,50 @@ function testCondition() {
     }
   });
 
-  // Listen for a checkbox change event and return condition accordingly
-  var specialChars = document.getElementById('special-chars');
-  specialChars.addEventListener('change', (e) => {
-    if (e.target.checked) {
-      tempParams[1] = true;
-      critCheck.style.color = 'green';
-    } else {
-      tempParams[1] = false;
-    }
-    // In this function, we compare all other checkboxes and their status with the numOfChar status
-    // If at least 1 criteria is chosen and numOfChar is true,
-    // Allow the user to use the button
-    checkParams();
-  });
+  // Iterate through all checkboxes and....
+  document.querySelectorAll('.checkbox').forEach((item) => {
+    item.addEventListener('change', (e) => {
+      // Check for the specific ID
+      if (e.target.id == 'special-chars') {
+        // If the checkbox with associated id is checked, update specific index to true and change label color to match state
+        if (e.target.checked) {
+          tempParams[1] = true;
+          critCheck.style.color = 'green';
+        } else {
+          // Else set it to false
+          tempParams[1] = false;
+        }
+      }
+      if (e.target.id == 'lower-char') {
+        if (e.target.checked) {
+          tempParams[2] = true;
+          critCheck.style.color = 'green';
+        } else {
+          tempParams[2] = false;
+        }
+      }
+      if (e.target.id == 'upper-char') {
+        if (e.target.checked) {
+          tempParams[3] = true;
+          critCheck.style.color = 'green';
+        } else {
+          tempParams[3] = false;
+        }
+      }
+      if (e.target.id == 'numeric-val') {
+        if (e.target.checked) {
+          tempParams[4] = true;
+          critCheck.style.color = 'green';
+        } else {
+          tempParams[4] = false;
+        }
+      }
 
-  var lowerChar = document.getElementById('lower-char');
-  lowerChar.addEventListener('change', (e) => {
-    if (e.target.checked) {
-      // Highlight the words green as an indicator ("1 Criteria")
-      tempParams[2] = true;
-      critCheck.style.color = 'green';
-    } else {
-      tempParams[2] = false;
-    }
-    checkParams();
-  });
-
-  var upperChar = document.getElementById('upper-char');
-  upperChar.addEventListener('change', (e) => {
-    if (e.target.checked) {
-      tempParams[3] = true;
-      critCheck.style.color = 'green';
-    } else {
-      tempParams[3] = false;
-    }
-    checkParams();
-  });
-
-  var numericVal = document.getElementById('numeric-val');
-  numericVal.addEventListener('change', (e) => {
-    if (e.target.checked) {
-      tempParams[4] = true;
-      critCheck.style.color = 'green';
-    } else {
-      tempParams[4] = false;
-    }
-    checkParams();
+      // In checkParams, we compare all other checkboxes and their status with the numOfChar status
+      // If at least 1 criteria is chosen and numOfChar is true,
+      // Allow the user to use the button
+      checkParams();
+    });
   });
 }
 
