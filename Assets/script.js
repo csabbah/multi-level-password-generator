@@ -1,6 +1,6 @@
 // ----- Dear UofT grader, thank you for reviewing my code!
 // Please mind the length of code, i included a variety of functions for the project
-// Outside of the main requirements
+// outside of the main requirements
 
 // --------------- Add all global variables at the top to clean up functions below
 var generateBtn = document.querySelector('#generate');
@@ -85,6 +85,11 @@ var critCheck = document.getElementById('crit-check');
 
 // --------------- This function cleans up the repetitive conditional code in testCondition() below
 function checkParams() {
+  // 0 = Number of characters
+  // 1 = Special Characters
+  // 2 = Lower characters
+  // 3 = Upper characters
+  // 4 = Numeric values
   if (
     (tempParams[0] && tempParams[1]) ||
     (tempParams[0] && tempParams[2]) ||
@@ -153,6 +158,7 @@ function testCondition() {
         // If the checkbox with associated id is checked, update specific index to true and change label color to match state
         if (e.target.checked) {
           tempParams[1] = true;
+          // Special characters
           critCheck.style.color = 'green';
         } else {
           // Else set it to false
@@ -162,6 +168,7 @@ function testCondition() {
       if (e.target.id == 'lower-char') {
         if (e.target.checked) {
           tempParams[2] = true;
+          // Lower characters
           critCheck.style.color = 'green';
         } else {
           tempParams[2] = false;
@@ -170,6 +177,7 @@ function testCondition() {
       if (e.target.id == 'upper-char') {
         if (e.target.checked) {
           tempParams[3] = true;
+          // Upper characters
           critCheck.style.color = 'green';
         } else {
           tempParams[3] = false;
@@ -178,6 +186,7 @@ function testCondition() {
       if (e.target.id == 'numeric-val') {
         if (e.target.checked) {
           tempParams[4] = true;
+          // Numeric values
           critCheck.style.color = 'green';
         } else {
           tempParams[4] = false;
@@ -201,6 +210,8 @@ function generatePassword() {
 
   // If all conditions are met, then generate password
   for (let i = 0; i <= parseInt(numOfChar.value); ) {
+    // Each array index represents a different criteria...
+    // If an index returns true, then return the appropriate data
     if (tempParams[1] == true) {
       // Special characters
       password +=
@@ -302,7 +313,7 @@ generateBtn.addEventListener('click', () => {
   }
 });
 
-// --------------- This function allows you to copy the  password to clip board
+// --------------- This function allows you to copy the password to clip board
 var copyBtn = document.getElementById('copy-btn');
 copyBtn.addEventListener('click', () => {
   passwordText.select();
