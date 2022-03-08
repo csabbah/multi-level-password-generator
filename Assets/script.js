@@ -12,9 +12,6 @@ var copyBtn = document.querySelector('.copy-btn'); // Copy Password button
 
 // On initial load, hide the copy password button
 copyBtn.style.display = 'none';
-// On initial load, hide the full body and only show the generator password button
-document.querySelector('.card-body').style.display = 'none';
-document.querySelector('.card-header').style.display = 'none';
 // Declare this variable to determine when to reveal filter options
 var runOnce = true; // and when to execute the generate password function
 
@@ -52,8 +49,8 @@ function revealFilters() {
     copyBtn.style.display = 'none'; // Hide the copy password button since the password is empty now
 
     // If password exists and we reset, revert back to original card height
-    passwordText.style.paddingTop = '24px';
-    passwordText.style.paddingBottom = '0';
+    passwordText.style.paddingTop = '17px';
+    passwordText.style.paddingBottom = '60px';
   }
   // While we're in the filter state, check the data the user is inputting
   testCondition();
