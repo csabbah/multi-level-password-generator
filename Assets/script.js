@@ -8,7 +8,7 @@ var passwordText = document.querySelector('#password');
 const filters = document.querySelector('.card-criteria');
 const cardFooter = document.querySelector('.card-footer');
 const updateMsg = document.getElementById('update-msg');
-var copyBtn = document.querySelector('.copy-btn'); // Copy Password button
+var copyBtn = document.getElementById('copy-btn'); // Copy Password button
 
 // On initial load, hide the copy password button
 copyBtn.style.display = 'none';
@@ -303,7 +303,7 @@ generateBtn.addEventListener('click', () => {
 });
 
 // --------------- This function allows you to copy the  password to clip board
-var copyBtn = document.querySelector('.copy-btn');
+var copyBtn = document.getElementById('copy-btn');
 copyBtn.addEventListener('click', () => {
   passwordText.select();
   document.execCommand('copy');

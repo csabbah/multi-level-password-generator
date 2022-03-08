@@ -17,6 +17,10 @@ body {
   background-color: #f9fbfd;
 }
 
+hr {
+  margin: 0;
+  opacity: 0.4;
+}
 /* Remove toggle buttons for input with type number */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -115,12 +119,12 @@ header {
   align-items: center;
 }
 
-#copy-text {
+#copy-btn {
   filter: saturate(0) brightness(0);
   transition: 0.1s all ease-in-out;
 }
 
-#copy-text.active {
+#copy-btn.active {
   filter: saturate(1) brightness(1);
   transition: 0.1s all ease-in-out;
 }
