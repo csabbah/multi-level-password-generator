@@ -18,6 +18,7 @@ https://csabbah.github.io/secure-password-generator/
 
 Made with ❤️ by Carlos Sabbah
 
-<img width="1591" alt="Screen Shot 2022-03-07 at 6 12 01 PM" src="https://user-images.githubusercontent.com/91699101/157133852-08acf0ab-b912-42fd-838f-47d10e5d6770.png">
+<img width="1492" alt="Screen Shot 2022-03-08 at 12 50 05 PM" src="https://user-images.githubusercontent.com/91699101/157296346-7b2c8ac7-0616-45db-b86d-3db20c922e48.png">
+
 
 
