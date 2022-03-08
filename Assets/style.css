@@ -56,10 +56,6 @@ header {
   padding: 30px 40px;
 }
 
-#error {
-  display: none;
-}
-
 .card-body {
   position: relative;
   min-height: 100px;

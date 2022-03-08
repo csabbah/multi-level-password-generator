@@ -87,6 +87,8 @@ function clearFilters() {
   cardFooter.style.height = 'initial';
 }
 
+var charCount = document.getElementById('char-count');
+var critCheck = document.getElementById('crit-check');
 // --------------- This function cleans up the repetitive conditional code in testCondition() below
 function checkParams() {
   if (
@@ -103,38 +105,47 @@ function checkParams() {
     (!tempParams[0] && tempParams[4])
   ) {
     generateBtn.disabled = true;
-    document.getElementById('crit-check').style.color = 'green';
+    critCheck.style.color = 'green';
   } else {
-    document.getElementById('crit-check').style.color = 'hsl(206, 17%, 28%)';
+    critCheck.style.color = 'red';
     generateBtn.disabled = true;
   }
 }
 
 // --------------- This function colors the labels requirement labels accordingly (i.e. '1 Criteria') and...
-// makes the generate button active or disabled depending on if conditions are met
+// Makes the generate button active or disabled depending on if conditions are met
 function testCondition() {
   // Disable button when the filters are revealed initially
   generateBtn.disabled = 'true';
-
   // The below condition is special so it's slightly different vs the other ones below
   // Check for key up on the numOfChar input and return condition accordingly
   numOfChar.addEventListener('keyup', (e) => {
     if (e.target.value >= 8 && e.target.value <= 128) {
-      document.getElementById('char-count').style.color = 'green';
-
+      charCount.style.color = 'green';
+      charCount.innerText = 'Valid Character count between 8-128';
       tempParams[0] = true;
     } else {
-      document.getElementById('char-count').style.color = 'hsl(206, 17%, 28%)';
+      // Depending on which part is true, return label accordingly
+      if (e.target.value < 8) {
+        charCount.innerText = 'Increase character count above 7';
+      } else {
+        charCount.innerText = 'Reduce character count under 129';
+      }
+      charCount.style.color = 'red';
       tempParams[0] = false;
     }
+    // If the number of characters is in the correct range and at least...
+    // one criteria was chosen...
     if (
       (tempParams[0] && tempParams[1]) ||
       (tempParams[0] && tempParams[2]) ||
       (tempParams[0] && tempParams[3]) ||
       (tempParams[0] && tempParams[4])
     ) {
+      // Allow the user to use the button
       generateBtn.disabled = false;
     } else {
+      // Else, if a criteria isn't chosen, disable the button
       generateBtn.disabled = true;
     }
   });
@@ -144,10 +155,13 @@ function testCondition() {
   specialChars.addEventListener('change', (e) => {
     if (e.target.checked) {
       tempParams[1] = true;
-      document.getElementById('crit-check').style.color = 'green';
+      critCheck.style.color = 'green';
     } else {
       tempParams[1] = false;
     }
+    // In this function, we compare all other checkboxes and their status with the numOfChar status
+    // If at least 1 criteria is chosen and numOfChar is true,
+    // Allow the user to use the button
     checkParams();
   });
 
@@ -156,7 +170,7 @@ function testCondition() {
     if (e.target.checked) {
       // Highlight the words green as an indicator ("1 Criteria")
       tempParams[2] = true;
-      document.getElementById('crit-check').style.color = 'green';
+      critCheck.style.color = 'green';
     } else {
       tempParams[2] = false;
     }
@@ -167,7 +181,7 @@ function testCondition() {
   upperChar.addEventListener('change', (e) => {
     if (e.target.checked) {
       tempParams[3] = true;
-      document.getElementById('crit-check').style.color = 'green';
+      critCheck.style.color = 'green';
     } else {
       tempParams[3] = false;
     }
@@ -178,7 +192,7 @@ function testCondition() {
   numericVal.addEventListener('change', (e) => {
     if (e.target.checked) {
       tempParams[4] = true;
-      document.getElementById('crit-check').style.color = 'green';
+      critCheck.style.color = 'green';
     } else {
       tempParams[4] = false;
     }
