@@ -116,6 +116,16 @@ header {
   align-items: center;
 }
 
+#copy-text {
+  filter: saturate(0) brightness(0);
+  transition: 0.1s all ease-in-out;
+}
+
+#copy-text.active {
+  filter: saturate(1) brightness(1);
+  transition: 0.1s all ease-in-out;
+}
+
 #update-msg {
   width: 100%;
   display: none;

@@ -1,5 +1,6 @@
 // ----- Dear UofT grader, thank you for reviewing my code!
 // Please mind the length of code, i included a variety of functions for the project
+// Outside of the main requirements
 
 // --------------- Add all global variables at the top to clean up functions below
 var generateBtn = document.querySelector('#generate');
@@ -41,10 +42,12 @@ function revealFilters() {
   // Set to false so we can execute generatePassword()
   runOnce = false;
   // Change button label to match with state
-  generateBtn.innerHTML = 'Generate Password';
+  generateBtn.innerText = 'Generate Password';
   // Only clear the password if it exists
   if (!password.value == '') {
-    displayRequirement();
+    charCount.style.color = 'hsl(206, 17%, 28%)';
+    critCheck.style.color = 'hsl(206, 17%, 28%)';
+
     password.value = '';
     copyBtn.style.display = 'none'; // Hide the copy password button since the password is empty now
 
@@ -56,17 +59,9 @@ function revealFilters() {
   testCondition();
 }
 
-// --------------- This function re-displays the initial requirement message
-function displayRequirement() {
-  updateMsg.innerHTML = `Required:
-            <em id="char-count">Valid Character count between 8-128</em>
-            <em id="crit-check">1 criteria</em>`;
-  updateMsg.style.color = 'hsl(206, 17%, 28%)';
-}
-
-// Make this a global array so we can access it in checkParams() testCondition() and GeneratePassword()
+// The main array that will the state of the project and the type of password being generated
+// I make it a global variable so i can access it across the entire code
 var tempParams = [false, false, false, false, false];
-
 // --------------- After successful password generation, clear all input fields
 // and revert to initial styling
 function clearFilters() {
@@ -87,8 +82,10 @@ function clearFilters() {
   cardFooter.style.height = 'initial';
 }
 
+// These variables are the required messages (i.e. '1 Criteria' and 'Valid character count')
 var charCount = document.getElementById('char-count');
 var critCheck = document.getElementById('crit-check');
+
 // --------------- This function cleans up the repetitive conditional code in testCondition() below
 function checkParams() {
   if (
@@ -112,7 +109,7 @@ function checkParams() {
   }
 }
 
-// --------------- This function colors the labels requirement labels accordingly (i.e. '1 Criteria') and...
+// --------------- This function colors the requirement labels accordingly (i.e. '1 Criteria') and...
 // Makes the generate button active or disabled depending on if conditions are met
 function testCondition() {
   // Disable button when the filters are revealed initially
@@ -131,6 +128,7 @@ function testCondition() {
       } else {
         charCount.innerText = 'Reduce character count under 129';
       }
+      // And make font color so it pops out more
       charCount.style.color = 'red';
       tempParams[0] = false;
     }
@@ -188,7 +186,6 @@ function testCondition() {
           tempParams[4] = false;
         }
       }
-
       // In checkParams, we compare all other checkboxes and their status with the numOfChar status
       // If at least 1 criteria is chosen and numOfChar is true,
       // Allow the user to use the button
@@ -202,7 +199,9 @@ function generatePassword() {
   // Remove update message if all conditions are correct
   updateMsg.style.display = 'none';
 
+  //  Declare the variable to hold the main password
   var password = '';
+
   // If all conditions are met, then generate password
   for (let i = 0; i <= parseInt(numOfChar.value); ) {
     if (tempParams[1] == true) {
@@ -215,6 +214,7 @@ function generatePassword() {
       // Increment here specifically and break accordingly so we don't go through
       // the full loop iteration and add an unnecessary amount of characters
       i += 1;
+      //  If i == the number of characters chosen, break out of the loop
       if (i == parseInt(numOfChar.value)) {
         break;
       }
@@ -277,7 +277,7 @@ function generatePassword() {
     passwordText.value.length >= 50
   ) {
     passwordText.style.paddingTop = '13px';
-    passwordText.style.paddingBottom = '20px';
+    passwordText.style.paddingBottom = '44px';
   } else {
     passwordText.style.paddingTop = '34px';
     passwordText.style.paddingBottom = '10px';
@@ -300,6 +300,7 @@ generateBtn.addEventListener('click', () => {
   } else {
     // Then execute the main function after
     // Upon successful password generation, set runOnce to true
+    // So we can use the revealFilters() again
     generatePassword();
   }
 });
@@ -309,7 +310,11 @@ var copyBtn = document.querySelector('.copy-btn');
 copyBtn.addEventListener('click', () => {
   passwordText.select();
   document.execCommand('copy');
-
-  updateMsg.style.display = 'flex';
-  updateMsg.innerText = 'Password Copied!';
+  // By adding class of active, the clipboard icon turns green to
+  // indicate that the code has successfully been copied
+  copyBtn.classList.add('active');
+  // Then after 1 second, remove the effect
+  setTimeout(() => {
+    copyBtn.classList.remove('active');
+  }, 1000);
 });
