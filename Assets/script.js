@@ -1,7 +1,3 @@
-// ----- Dear UofT grader, thank you for reviewing my code!
-// Please mind the length of code, i included a variety of functions for the project
-// outside of the main requirements
-
 // --------------- Add all global variables at the top to clean up functions below
 var generateBtn = document.querySelector('#generate');
 var passwordText = document.querySelector('#password');
