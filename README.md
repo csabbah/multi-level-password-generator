@@ -12,7 +12,7 @@ Uoft challenge #3: Password Generator. This application will generate a unique p
 
 ## Website
 
-https://csabbah.github.io/secure-password-generator/
+https://csabbah.github.io/multi-level-password-generator/
 
 ## Contribution
 
